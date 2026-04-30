@@ -1,6 +1,8 @@
 package dev.gabryel.ecommerce.controller;
 
+import dev.gabryel.ecommerce.dto.user.request.UserLoginRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserRegisterRequest;
+import dev.gabryel.ecommerce.dto.user.response.UserLoginResponse;
 import dev.gabryel.ecommerce.dto.user.response.UserRegisterResponse;
 import dev.gabryel.ecommerce.service.UserService;
 import jakarta.validation.Valid;
@@ -23,5 +25,11 @@ public class UserController {
     public ResponseEntity<UserRegisterResponse> userRegister(@RequestBody @Valid UserRegisterRequest userRequest) {
         UserRegisterResponse userResponse = new UserRegisterResponse(userService.userRegister(userRequest, 2));
         return ResponseEntity.ok(userResponse);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponse> userLogin(@RequestBody @Valid UserLoginRequest userRequest) {
+        UserLoginResponse token = new UserLoginResponse(userService.userLogin(userRequest));
+        return ResponseEntity.ok(token);
     }
 }
