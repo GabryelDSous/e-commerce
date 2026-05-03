@@ -1,6 +1,7 @@
 package dev.gabryel.ecommerce.controller;
 
 import dev.gabryel.ecommerce.config.JWTUserData;
+import dev.gabryel.ecommerce.dto.user.request.UserDeleteRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserLoginRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserRegisterRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserUpdateEmailRequest;
@@ -55,6 +56,14 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> userDeleteById(@PathVariable("id") UUID id) {
         userService.userDeleteById(id);
+        return ResponseEntity.ok("Successfully deleted");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> userDelete(@AuthenticationPrincipal JWTUserData userData,
+                                             @RequestBody @Valid UserDeleteRequest userDelete) {
+        userService.userDelete(userData, userDelete);
         return ResponseEntity.ok("Successfully deleted");
     }
 }
