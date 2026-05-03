@@ -25,9 +25,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("register-user")
+    @PostMapping("/register-user")
     public ResponseEntity<UserRegisterResponse> userRegister(@RequestBody @Valid UserRegisterRequest userRequest) {
         UserRegisterResponse userResponse = new UserRegisterResponse(userService.userRegister(userRequest, 2));
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PostMapping("/register-admin")
+    public ResponseEntity<UserRegisterResponse> adminRegister(@RequestBody @Valid UserRegisterRequest userRequest) {
+        UserRegisterResponse userResponse = new UserRegisterResponse(userService.userRegister(userRequest, 1));
         return ResponseEntity.ok(userResponse);
     }
 
@@ -45,6 +51,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> userDeleteById(@PathVariable("id") UUID id) {
         userService.userDeleteById(id);
