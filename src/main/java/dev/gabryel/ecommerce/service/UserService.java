@@ -18,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -60,5 +62,11 @@ public class UserService {
             throw new BadCredentialsException("Wrong password");
         userModel.setEmail(userRequest.newEmail());
         return userModel.getEmail();
+    }
+
+    public void userDeleteById(UUID id) {
+        UserModel userModel = userRepository.findById(id)
+                .orElseThrow(() -> new UserException("User ID does not found", HttpStatus.NOT_FOUND.value()));
+        userRepository.delete(userModel);
     }
 }
