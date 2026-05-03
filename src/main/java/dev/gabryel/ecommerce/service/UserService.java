@@ -2,6 +2,7 @@ package dev.gabryel.ecommerce.service;
 
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.config.TokenConfig;
+import dev.gabryel.ecommerce.dto.user.request.UserDeleteRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserLoginRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserRegisterRequest;
 import dev.gabryel.ecommerce.dto.user.request.UserUpdateEmailRequest;
@@ -67,6 +68,14 @@ public class UserService {
     public void userDeleteById(UUID id) {
         UserModel userModel = userRepository.findById(id)
                 .orElseThrow(() -> new UserException("User ID does not found", HttpStatus.NOT_FOUND.value()));
+        userRepository.delete(userModel);
+    }
+
+    public void userDelete(JWTUserData userData, UserDeleteRequest userRequest) {
+        UserModel userModel = userRepository.findByEmail(userData.email())
+                .orElseThrow(() -> new UserException("User logged does not found", HttpStatus.NOT_FOUND.value()));
+        if (!passwordEncoder.matches(userRequest.password(), userModel.getPassword()))
+            throw new BadCredentialsException("Wrong password");
         userRepository.delete(userModel);
     }
 }
