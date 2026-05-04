@@ -2,10 +2,8 @@ package dev.gabryel.ecommerce.service;
 
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.config.TokenConfig;
-import dev.gabryel.ecommerce.dto.user.request.UserDeleteRequest;
-import dev.gabryel.ecommerce.dto.user.request.UserLoginRequest;
-import dev.gabryel.ecommerce.dto.user.request.UserRegisterRequest;
-import dev.gabryel.ecommerce.dto.user.request.UserUpdateEmailRequest;
+import dev.gabryel.ecommerce.dto.user.request.*;
+import dev.gabryel.ecommerce.dto.user.response.UserUpdateNameAndPassResponse;
 import dev.gabryel.ecommerce.exception.UserException;
 import dev.gabryel.ecommerce.mapper.UserMapper;
 import dev.gabryel.ecommerce.model.UserModel;
@@ -63,6 +61,16 @@ public class UserService {
             throw new BadCredentialsException("Wrong password");
         userModel.setEmail(userRequest.newEmail());
         return userModel.getEmail();
+    }
+    @Transactional
+    public UserUpdateNameAndPassResponse userUpdateNameAndPass(JWTUserData userData, UserUpdateNameAndPassRequest userRequest) {
+        UserModel userModel = userRepository.findByEmail(userData.email())
+                .orElseThrow(() -> new UserException("User logged does not found", HttpStatus.NOT_FOUND.value()));
+        if (!passwordEncoder.matches(userRequest.currentPassword(), userModel.getPassword()))
+            throw new BadCredentialsException("Wrong password");
+        userModel.setName(userRequest.newName());
+        userModel.setPassword(passwordEncoder.encode(userRequest.newPassword()));
+        return new UserUpdateNameAndPassResponse(userModel.getEmail(), userModel.getName());
     }
 
     public void userDeleteById(UUID id) {
