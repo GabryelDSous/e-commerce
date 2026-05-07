@@ -3,6 +3,7 @@ package dev.gabryel.ecommerce.service;
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.config.TokenConfig;
 import dev.gabryel.ecommerce.dto.user.request.*;
+import dev.gabryel.ecommerce.dto.user.response.UserListResponse;
 import dev.gabryel.ecommerce.dto.user.response.UserUpdateNameAndPassResponse;
 import dev.gabryel.ecommerce.exception.UserException;
 import dev.gabryel.ecommerce.mapper.UserMapper;
@@ -16,7 +17,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -51,6 +54,15 @@ public class UserService {
         );
         UserModel userModel = (UserModel) authenticationManager.authenticate(userAndPass).getPrincipal();
         return tokenConfig.generateToken(userModel);
+    }
+
+    public List<UserListResponse> userListAll() {
+        List<UserModel> userModels = userRepository.findAll();
+        if (userModels.isEmpty())
+            throw new UserException("Users does not exists", HttpStatus.NOT_FOUND.value());
+        return userModels.stream()
+                .map(UserMapper::toUseListResponse)
+                .toList();
     }
 
     @Transactional
