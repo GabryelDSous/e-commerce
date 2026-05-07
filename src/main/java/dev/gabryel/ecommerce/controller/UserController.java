@@ -2,10 +2,7 @@ package dev.gabryel.ecommerce.controller;
 
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.dto.user.request.*;
-import dev.gabryel.ecommerce.dto.user.response.UserLoginResponse;
-import dev.gabryel.ecommerce.dto.user.response.UserRegisterResponse;
-import dev.gabryel.ecommerce.dto.user.response.UserUpdateEmailResponse;
-import dev.gabryel.ecommerce.dto.user.response.UserUpdateNameAndPassResponse;
+import dev.gabryel.ecommerce.dto.user.response.*;
 import dev.gabryel.ecommerce.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,6 +38,13 @@ public class UserController {
     public ResponseEntity<UserLoginResponse> userLogin(@RequestBody @Valid UserLoginRequest userRequest) {
         UserLoginResponse token = new UserLoginResponse(userService.userLogin(userRequest));
         return ResponseEntity.ok(token);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/list-all")
+    public ResponseEntity<List<UserListResponse>> userListAll() {
+        List<UserListResponse> userListResponses = userService.userListAll();
+        return ResponseEntity.ok(userListResponses);
     }
 
     @PreAuthorize("isAuthenticated()")
