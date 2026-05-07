@@ -18,6 +18,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class UserModel implements Serializable, UserDetails {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     private UUID id;
