@@ -15,6 +15,18 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(ProductException.class)
+    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(ProductException ex, HttpServletRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(
+                LocalDateTime.now(),
+                ex.getStatus(),
+                HttpStatus.valueOf(ex.getStatus()).getReasonPhrase(),
+                ex.getMessage(),
+                request.getPathInfo()
+        );
+        return ResponseEntity.status(ex.getStatus()).body(errorMessage);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(
