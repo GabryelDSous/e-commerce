@@ -58,7 +58,7 @@ public class UserService {
     public List<UserListResponse> userListAll() {
         List<UserModel> userModels = userRepository.findAll();
         if (userModels.isEmpty())
-            throw new UserException("Users does not exists", HttpStatus.NOT_FOUND.value());
+            throw new UserException("Users not found", HttpStatus.NOT_FOUND.value());
         return userModels.stream()
                 .map(UserMapper::toUseListResponse)
                 .toList();
@@ -66,14 +66,14 @@ public class UserService {
 
     public UserListResponse userFindByEmail(String email) {
         UserModel userModel = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException("User does not found", HttpStatus.NOT_FOUND.value()));
+                .orElseThrow(() -> new UserException("User not found", HttpStatus.NOT_FOUND.value()));
         return UserMapper.toUseListResponse(userModel);
     }
 
     @Transactional
     public String userUpdate(JWTUserData userData, UserUpdateEmailRequest userRequest) {
         UserModel userModel = userRepository.findByEmail(userData.email())
-                .orElseThrow(() -> new UserException("User logged does not found", HttpStatus.NOT_FOUND.value()));
+                .orElseThrow(() -> new UserException("User logged not found", HttpStatus.NOT_FOUND.value()));
         if (!passwordEncoder.matches(userRequest.password(), userModel.getPassword()))
             throw new BadCredentialsException("Wrong password");
         userModel.setEmail(userRequest.newEmail());
@@ -82,7 +82,7 @@ public class UserService {
     @Transactional
     public UserUpdateNameAndPassResponse userUpdateNameAndPass(JWTUserData userData, UserUpdateNameAndPassRequest userRequest) {
         UserModel userModel = userRepository.findByEmail(userData.email())
-                .orElseThrow(() -> new UserException("User logged does not found", HttpStatus.NOT_FOUND.value()));
+                .orElseThrow(() -> new UserException("User logged not found", HttpStatus.NOT_FOUND.value()));
         if (!passwordEncoder.matches(userRequest.currentPassword(), userModel.getPassword()))
             throw new BadCredentialsException("Wrong password");
         userModel.setName(userRequest.newName());
@@ -92,13 +92,13 @@ public class UserService {
 
     public void userDeleteById(UUID id) {
         UserModel userModel = userRepository.findById(id)
-                .orElseThrow(() -> new UserException("User ID does not found", HttpStatus.NOT_FOUND.value()));
+                .orElseThrow(() -> new UserException("User ID not found", HttpStatus.NOT_FOUND.value()));
         userRepository.delete(userModel);
     }
 
     public void userDelete(JWTUserData userData, UserDeleteRequest userRequest) {
         UserModel userModel = userRepository.findByEmail(userData.email())
-                .orElseThrow(() -> new UserException("User logged does not found", HttpStatus.NOT_FOUND.value()));
+                .orElseThrow(() -> new UserException("User logged not found", HttpStatus.NOT_FOUND.value()));
         if (!passwordEncoder.matches(userRequest.password(), userModel.getPassword()))
             throw new BadCredentialsException("Wrong password");
         userRepository.delete(userModel);
