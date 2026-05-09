@@ -1,8 +1,10 @@
 package dev.gabryel.ecommerce.mapper;
 
 import dev.gabryel.ecommerce.dto.product.request.ProductRegisterRequest;
+import dev.gabryel.ecommerce.dto.product.request.ProductUpdateRequest;
 import dev.gabryel.ecommerce.dto.product.response.ProductListResponse;
 import dev.gabryel.ecommerce.dto.product.response.ProductRegisterResponse;
+import dev.gabryel.ecommerce.dto.product.response.ProductUpdateResponse;
 import dev.gabryel.ecommerce.model.ProductModel;
 import dev.gabryel.ecommerce.model.enums.ProductStatus;
 
@@ -36,6 +38,13 @@ public class ProductMapper {
                 productModel.getPrice(),
                 productModel.getSellerName(),
                 productModel.getStatus()
+        );
+    }
+
+    public static ProductUpdateResponse toProductUpdateResponse(ProductModel productModel) {
+        return new ProductUpdateResponse(
+                productModel.getId(), productModel.getName(), productModel.getDescription(),
+                productModel.getPrice(), productModel.getSellerName(), productModel.getStock(), productModel.getStatus()
         );
     }
 }
