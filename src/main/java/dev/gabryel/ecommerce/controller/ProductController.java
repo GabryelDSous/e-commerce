@@ -2,8 +2,10 @@ package dev.gabryel.ecommerce.controller;
 
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.dto.product.request.ProductRegisterRequest;
+import dev.gabryel.ecommerce.dto.product.request.ProductUpdateRequest;
 import dev.gabryel.ecommerce.dto.product.response.ProductListResponse;
 import dev.gabryel.ecommerce.dto.product.response.ProductRegisterResponse;
+import dev.gabryel.ecommerce.dto.product.response.ProductUpdateResponse;
 import dev.gabryel.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
@@ -35,5 +38,13 @@ class ProductController {
     public ResponseEntity<List<ProductListResponse>> productListAll() {
         List<ProductListResponse> productListResponses = productService.productListAll();
         return ResponseEntity.ok(productListResponses);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update-product")
+    public ResponseEntity<ProductUpdateResponse> productUpdate(@RequestParam(value = "id") UUID id,
+                                                               @RequestBody @Valid ProductUpdateRequest productRequest) {
+        ProductUpdateResponse productResponse = productService.productUpdate(id, productRequest);
+        return ResponseEntity.ok(productResponse);
     }
 }
