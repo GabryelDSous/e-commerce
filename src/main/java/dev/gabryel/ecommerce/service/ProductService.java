@@ -59,4 +59,10 @@ public class ProductService {
         productModel.setStock(productRequest.stock());
         return ProductMapper.toProductUpdateResponse(productModel);
     }
+
+    public void productDelete(UUID id) {
+        ProductModel productModel = productRepository.findById(id)
+                .orElseThrow(() -> new ProductException("Product not found", HttpStatus.NOT_FOUND.value()));
+        productRepository.delete(productModel);
+    }
 }
