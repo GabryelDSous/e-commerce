@@ -47,4 +47,11 @@ class ProductController {
         ProductUpdateResponse productResponse = productService.productUpdate(id, productRequest);
         return ResponseEntity.ok(productResponse);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete-product")
+    public ResponseEntity<String> productDelete(@RequestParam(value = "id") UUID id) {
+        productService.productDelete(id);
+        return ResponseEntity.ok("Successfully deleted");
+    }
 }
