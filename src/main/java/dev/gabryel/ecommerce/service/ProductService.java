@@ -3,10 +3,7 @@ package dev.gabryel.ecommerce.service;
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.dto.product.request.ProductRegisterRequest;
 import dev.gabryel.ecommerce.dto.product.request.ProductUpdateRequest;
-import dev.gabryel.ecommerce.dto.product.response.ProductListByName;
-import dev.gabryel.ecommerce.dto.product.response.ProductListResponse;
-import dev.gabryel.ecommerce.dto.product.response.ProductRegisterResponse;
-import dev.gabryel.ecommerce.dto.product.response.ProductUpdateResponse;
+import dev.gabryel.ecommerce.dto.product.response.*;
 import dev.gabryel.ecommerce.exception.ProductException;
 import dev.gabryel.ecommerce.exception.UserException;
 import dev.gabryel.ecommerce.mapper.ProductMapper;
@@ -49,7 +46,7 @@ public class ProductService {
                 .toList();
     }
 
-    public List<ProductListByName> productFindByName(String name) {
+    public List<ProductListByNameResponse> productListByName(String name) {
         List<ProductModel> productModels = productRepository.findByNameContainingIgnoreCase(name);
         if (productModels.isEmpty())
             throw new ProductException("Products not found", HttpStatus.NOT_FOUND.value());

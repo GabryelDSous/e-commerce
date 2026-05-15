@@ -3,6 +3,7 @@ package dev.gabryel.ecommerce.controller;
 import dev.gabryel.ecommerce.config.JWTUserData;
 import dev.gabryel.ecommerce.dto.product.request.ProductRegisterRequest;
 import dev.gabryel.ecommerce.dto.product.request.ProductUpdateRequest;
+import dev.gabryel.ecommerce.dto.product.response.ProductListByNameResponse;
 import dev.gabryel.ecommerce.dto.product.response.ProductListResponse;
 import dev.gabryel.ecommerce.dto.product.response.ProductRegisterResponse;
 import dev.gabryel.ecommerce.dto.product.response.ProductUpdateResponse;
@@ -38,6 +39,12 @@ class ProductController {
     public ResponseEntity<List<ProductListResponse>> productListAll() {
         List<ProductListResponse> productListResponses = productService.productListAll();
         return ResponseEntity.ok(productListResponses);
+    }
+
+    @GetMapping("/list-name")
+    public ResponseEntity<List<ProductListByNameResponse>> productListByName(@RequestParam(value = "name") String name) {
+        List<ProductListByNameResponse> productListByNameResponses = productService.productListByName(name);
+        return ResponseEntity.ok(productListByNameResponses);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
