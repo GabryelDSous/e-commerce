@@ -45,9 +45,9 @@ public class ProductMapper {
         );
     }
 
-    public static ProductListByNameResponse toProductListByName(ProductModel productModel) {
-        return new ProductListByNameResponse(
-                productModel.getId(), productModel.getName(), productModel.getPrice(),
+    public static ProductListByAttributeResponse toProductListByAttribute(ProductModel productModel) {
+        return new ProductListByAttributeResponse(
+                productModel.getId(), productModel.getName(), productModel.getDescription(), productModel.getPrice(),
                 productModel.getStatus(), productModel.getSellerName()
         );
     }
