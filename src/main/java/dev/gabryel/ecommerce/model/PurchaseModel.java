@@ -3,7 +3,6 @@ package dev.gabryel.ecommerce.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,7 +29,6 @@ public class PurchaseModel implements Serializable {
     @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @CreationTimestamp
     @Column(name = "purchase_date", nullable = false)
     private LocalDateTime purchaseDate;
 
