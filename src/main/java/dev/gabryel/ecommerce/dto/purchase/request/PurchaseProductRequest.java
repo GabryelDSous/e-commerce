@@ -5,6 +5,6 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
-public record PurchaseProductRequest(@NotNull(message = "Enter with a valid value")UUID id,
+public record PurchaseProductRequest(@NotNull(message = "Enter with a valid value") UUID id,
                                      @Positive(message = "Enter with a valid value") Integer quantity) {
 }
