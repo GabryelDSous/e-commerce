@@ -19,7 +19,7 @@ public class PurchaseMapper {
     }
     public static PurchaseProductResponse toPurchaseProductResponse(PurchaseModel purchaseModel) {
         return new PurchaseProductResponse(
-                purchaseModel.getProductName(), purchaseModel.getUserName(),
+                purchaseModel.getId(), purchaseModel.getProductName(), purchaseModel.getUserName(),
                 purchaseModel.getPurchaseDate(), purchaseModel.getQuantity()
         );
     }
