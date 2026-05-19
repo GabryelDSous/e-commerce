@@ -35,5 +35,7 @@ public class PurchaseModel implements Serializable {
     @JoinColumn(name = "user_id")
     private UserModel userModel;
 
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private ProductModel productModel;
 }
