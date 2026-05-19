@@ -60,14 +60,14 @@ public class UserService {
         if (userModels.isEmpty())
             throw new UserException("Users not found", HttpStatus.NOT_FOUND.value());
         return userModels.stream()
-                .map(UserMapper::toUseListResponse)
+                .map(UserMapper::toUserListResponse)
                 .toList();
     }
 
     public UserListResponse userFindByEmail(String email) {
         UserModel userModel = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException("User not found", HttpStatus.NOT_FOUND.value()));
-        return UserMapper.toUseListResponse(userModel);
+        return UserMapper.toUserListResponse(userModel);
     }
 
     @Transactional

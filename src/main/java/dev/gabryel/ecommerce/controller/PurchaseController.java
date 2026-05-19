@@ -7,11 +7,11 @@ import dev.gabryel.ecommerce.service.PurchaseService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/purchases")
@@ -33,5 +33,11 @@ public class PurchaseController {
     public ResponseEntity<List<PurchaseProductResponse>> purchaseListAll() {
         List<PurchaseProductResponse> purchaseProductResponses = purchaseService.purchaseListAll();
         return ResponseEntity.ok(purchaseProductResponses);
+    }
+
+    @GetMapping("/list-id")
+    public ResponseEntity<List<PurchaseProductResponse>> purchaseListByUserId(@RequestParam(value = "userId") UUID userId) {
+        List<PurchaseProductResponse> purchaseResponses = purchaseService.purchaseListByUserModel(userId);
+        return ResponseEntity.ok(purchaseResponses);
     }
 }
