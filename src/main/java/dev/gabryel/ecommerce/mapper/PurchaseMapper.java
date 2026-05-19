@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 public class PurchaseMapper {
     public static PurchaseModel toPurchaseModel(UserModel userModel, ProductModel productModel) {
         PurchaseModel purchaseModel = new PurchaseModel();
-        purchaseModel.setUserId(userModel.getId());
         purchaseModel.setUserName(userModel.getName());
-        purchaseModel.setProductId(productModel.getId());
         purchaseModel.setProductName(productModel.getName());
         purchaseModel.setPurchaseDate(LocalDateTime.now());
         return purchaseModel;
