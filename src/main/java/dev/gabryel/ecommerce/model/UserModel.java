@@ -9,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_users")
@@ -36,6 +34,9 @@ public class UserModel implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 10)
     private UserRoles role;
+
+    @OneToMany(mappedBy = "userModel", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<PurchaseModel> products = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
