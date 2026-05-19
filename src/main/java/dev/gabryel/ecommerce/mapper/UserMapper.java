@@ -2,9 +2,8 @@ package dev.gabryel.ecommerce.mapper;
 
 import dev.gabryel.ecommerce.dto.user.request.UserRegisterRequest;
 import dev.gabryel.ecommerce.dto.user.response.UserListResponse;
+import dev.gabryel.ecommerce.model.PurchaseModel;
 import dev.gabryel.ecommerce.model.UserModel;
-
-import java.util.List;
 
 public class UserMapper {
 
@@ -15,12 +14,13 @@ public class UserMapper {
         return userModel;
     }
 
-    public static UserListResponse toUseListResponse(UserModel userModel) {
+    public static UserListResponse toUserListResponse(UserModel userModel) {
         return new UserListResponse(
+                userModel.getId(),
                 userModel.getName(),
                 userModel.getEmail(),
                 userModel.getRole().toString(),
-                List.of()
+                userModel.getProducts().stream().map(PurchaseModel::getProductName).toList()
         );
     }
 }
