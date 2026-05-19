@@ -19,13 +19,9 @@ public class PurchaseModel implements Serializable {
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "product_id", nullable = false)
-    private UUID productId;
     @Column(name = "product_name", nullable = false)
     private String productName;
 
@@ -34,4 +30,10 @@ public class PurchaseModel implements Serializable {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private UserModel userModel;
+
+
 }
