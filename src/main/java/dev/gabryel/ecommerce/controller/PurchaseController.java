@@ -5,6 +5,7 @@ import dev.gabryel.ecommerce.dto.purchase.request.PurchaseProductRequest;
 import dev.gabryel.ecommerce.dto.purchase.response.PurchaseProductResponse;
 import dev.gabryel.ecommerce.service.PurchaseService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,5 +40,11 @@ public class PurchaseController {
     public ResponseEntity<List<PurchaseProductResponse>> purchaseListByUserId(@RequestParam(value = "userId") UUID userId) {
         List<PurchaseProductResponse> purchaseResponses = purchaseService.purchaseListByUserId(userId);
         return ResponseEntity.ok(purchaseResponses);
+    }
+
+    @DeleteMapping("delete-id")
+    public ResponseEntity<String> purchaseDeleteById(@RequestParam(value = "id") UUID id) {
+        purchaseService.purchaseDeleteById(id);
+        return ResponseEntity.ok("Successfully deleted");
     }
 }
