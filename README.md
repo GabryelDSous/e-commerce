@@ -31,8 +31,8 @@ REST API for e-commerce management built with Spring Boot, Spring Security, and 
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | /auth/register | Register a new user |
-| POST | /auth/login | Authenticate user |
+| POST | /users/register-user | Register a new user |
+| POST | /users/login | Authenticate user |
 
 ---
 
@@ -40,8 +40,8 @@ REST API for e-commerce management built with Spring Boot, Spring Security, and 
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | /users | List all users |
-| DELETE | /users/{id} | Delete user (admin only) |
+| GET | /users/list-all | List all users |
+| DELETE | /users/delete/{id} | Delete user (admin only) |
 
 ---
 
@@ -49,8 +49,8 @@ REST API for e-commerce management built with Spring Boot, Spring Security, and 
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | /products | Create product (admin only) |
-| GET | /products | List all products |
+| POST | /products/register-product | Create product (admin only) |
+| GET | /products/list-all | List all products |
 
 ---
 
@@ -58,8 +58,8 @@ REST API for e-commerce management built with Spring Boot, Spring Security, and 
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | /purchases | Create purchase |
-| DELETE | /purchases/{id} | Delete purchase |
+| POST | /purchases/purchase | Create purchase |
+| DELETE | /purchases/delete-id?id=uuid | Delete purchase |
 
 ---
 
