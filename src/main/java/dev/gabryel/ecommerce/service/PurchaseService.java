@@ -68,4 +68,10 @@ public class PurchaseService {
                 .map(PurchaseMapper::toPurchaseProductResponse)
                 .toList();
     }
+
+    public void purchaseDeleteById(UUID id) {
+        PurchaseModel purchaseModel = purchaseRepository.findById(id)
+                .orElseThrow(() -> new PurchaseException("Product cannot be purchased", HttpStatus.NOT_FOUND.value()));
+        purchaseRepository.delete(purchaseModel);
+    }
 }
